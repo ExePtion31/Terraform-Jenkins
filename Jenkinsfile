@@ -40,6 +40,15 @@ pipeline {
             }
         }
 
+        stage('TerraformWorkspace'){
+            steps{
+                dir('jenkins-terraform-pipeline/ec2_pipeline/'){
+                    bat 'terraform workspace new ${environment}'
+                    bat 'terraform workspace select ${environment}'
+                }
+            }
+        }
+
         stage('TerraformPlan'){
             steps {
                 dir('jenkins-terraform-pipeline/ec2_pipeline/'){
