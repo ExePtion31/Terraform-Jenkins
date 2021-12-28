@@ -22,8 +22,11 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                checkout scm
-                git 'https://github.com/ExePtion31/Terraform-Jenkins'
+                script {
+                    dir('jenkins-terraform-pipeline/jenkins_pipeline/') {
+                        git 'https://github.com/ExePtion31/Terraform-Jenkins'
+                    }
+                }
             }
         }
         stage('Terraform Init') {
