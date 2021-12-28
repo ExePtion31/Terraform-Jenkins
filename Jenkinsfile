@@ -30,7 +30,7 @@ pipeline {
 
         stage('Plan') {
             steps {
-                sh 'pwd;cd Terraform-Jenkins ; terraform init -input=false'
+                sh 'pwd; terraform init -input=false'
                 /*sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace new ${environment}'
                 sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace select ${environment}'
                 sh "pwd;cd terraform/Terraform-Jenkins ;terraform plan -input=false -out tfplan "
