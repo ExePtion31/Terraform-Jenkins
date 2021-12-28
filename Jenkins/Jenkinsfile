@@ -46,7 +46,7 @@ pipeline {
         }
         stage('Finished instance') {
             steps {
-                bat 'terraform destroy -auto-approve -target aws_instance.jenkins_instance' 
+                bat 'terraform destroy -target aws_instance.jenkins_instance -auto-approve' 
             }
         }
     }
