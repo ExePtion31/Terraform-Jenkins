@@ -17,7 +17,7 @@ pipeline {
             stage('TerraformInit'){
                 steps {
                         dir('jenkins-terraform-pipeline/ec2_pipeline/'){
-                        bat "terraform init"
+                        bat "terraform init -backend-config='access_key=$ACCESS_KEY' -backend-config='secret_key=$SECRET_KEY'"
                         bat "echo \$PWD"
                         bat "whoami"
                     }
