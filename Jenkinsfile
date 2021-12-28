@@ -39,23 +39,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Terraform Plan'){
-            steps {
-                dir('jenkins-terraform-pipeline/ec2_pipeline/'){
-                    script {
-                        try {
-                            bat "terraform workspace new ${params.WORKSPACE}"
-                        } catch (err) {
-                            bat "terraform workspace select ${params.WORKSPACE}"
-                        }
-                        bat "terraform plan -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY'"
-                        stash name: "terraform-plan", includes: "terraform.tfplan"
-                    }
-                }
-            }
-        }
-        
+                
         stage('TerraformApply'){
             steps {
                 script{
