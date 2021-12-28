@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform"
+        "org.jenkinsci.plugins.terraform.TerraformInstallation" "Terraform"
     }
     parameters {
         string(name: 'WORKSPACE', defaultValue: 'development', description:'setting up workspace for terraform')
@@ -14,24 +14,15 @@ pipeline {
         SECRET_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
     stages {
-            stage('checkout') {
+            stage('TerraformInit'){
                 steps {
-                    script {
-                        dir("terraform") {
-                            git "https://github.com/ExePtion31/Terraform-Jenkins.git"
-                        }
+                        dir('jenkins-terraform-pipeline/ec2_pipeline/'){
+                        bat "terraform init -input=false"
+                        bat "echo \$PWD"
+                        bat "whoami"
                     }
                 }
             }
-            stage('TerraformInit'){
-            steps {
-                dir('jenkins-terraform-pipeline/ec2_pipeline/'){
-                    bat "terraform init -input=false"
-                    bat "echo \$PWD"
-                    bat "whoami"
-                }
-            }
-        }
 
         stage('TerraformFormat'){
             steps {
