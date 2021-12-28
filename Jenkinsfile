@@ -40,7 +40,7 @@ pipeline {
             }
         }
 
-        stage('TerraformPlan'){
+        stage('Terraform Apply'){
             steps {
                 dir('jenkins-terraform-pipeline/ec2_pipeline/'){
                     script {
@@ -50,7 +50,7 @@ pipeline {
                             bat "terraform workspace select ${params.WORKSPACE}"
                         }
                         bat "terraform plan -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' \
-                        -out terraform.tfplan;echo \$? > status"
+                        -out terraform.tfplan;"
                         stash name: "terraform-plan", includes: "terraform.tfplan"
                     }
                 }
