@@ -32,7 +32,7 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
-                    bat "terraform init -input=false"
+                    bat "terraform init -input=false -backend-config=access_key='$ACCESS_KEY'-backend-config=secret_key='$ACCESS_KEY'"
                     bat "terraform -v"
                 }
             }
