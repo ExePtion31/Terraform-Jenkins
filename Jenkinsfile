@@ -44,7 +44,6 @@ pipeline {
             steps {
                 dir('jenkins-terraform-pipeline/ec2_pipeline/'){
                     bat 'terraform apply' 
-                    }
                 }
             }
         }
