@@ -39,23 +39,11 @@ pipeline {
                 }
             }
         }
-                
+
         stage('TerraformApply'){
             steps {
-                script{
-                    def apply = false
-                    try {
-                        input message: 'Can you please confirm the apply', ok: 'Ready to Apply the Config'
-                        apply = true
-                    } catch (err) {
-                        apply = false
-                         currentBuild.result = 'UNSTABLE'
-                    }
-                    if(apply){
-                        dir('jenkins-terraform-pipeline/ec2_pipeline/'){
-                            unstash "terraform-plan"
-                            bat 'terraform apply terraform.tfplan' 
-                        }
+                dir('jenkins-terraform-pipeline/ec2_pipeline/'){
+                    bat 'terraform apply' 
                     }
                 }
             }
