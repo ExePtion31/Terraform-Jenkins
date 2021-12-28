@@ -30,11 +30,11 @@ pipeline {
 
         stage('Plan') {
             steps {
-                sh 'pwd;cd terraform/Terraform-Jenkins ; terraform init -input=false'
-                sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace new ${environment}'
+                sh 'pwd;cd Terraform-Jenkins ; terraform init -input=false'
+                /*sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace new ${environment}'
                 sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace select ${environment}'
                 sh "pwd;cd terraform/Terraform-Jenkins ;terraform plan -input=false -out tfplan "
-                sh 'pwd;cd terraform/Terraform-Jenkins ;terraform show -no-color tfplan > tfplan.txt'
+                sh 'pwd;cd terraform/Terraform-Jenkins ;terraform show -no-color tfplan > tfplan.txt'*/
             }
         }
         stage('Approval') {
