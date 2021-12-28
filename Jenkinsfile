@@ -17,9 +17,9 @@ pipeline {
             stage('TerraformInit'){
             steps {
                 dir('jenkins-terraform-pipeline/ec2_pipeline/'){
-                    sh "terraform init -input=false"
-                    sh "echo \$PWD"
-                    sh "whoami"
+                    bat "terraform init -input=false"
+                    bat "echo \$PWD"
+                    bat "whoami"
                 }
             }
         }
@@ -27,7 +27,7 @@ pipeline {
         stage('TerraformFormat'){
             steps {
                 dir('jenkins-terraform-pipeline/ec2_pipeline/'){
-                    sh "terraform fmt -list=true -write=false -diff=true -check=true"
+                    bat "terraform fmt -list=true -write=false -diff=true -check=true"
                 }
             }
         }
@@ -35,7 +35,7 @@ pipeline {
         stage('TerraformValidate'){
             steps {
                 dir('jenkins-terraform-pipeline/ec2_pipeline/'){
-                    sh "terraform validate"
+                    bat "terraform validate"
                 }
             }
         }
@@ -45,13 +45,13 @@ pipeline {
                 dir('jenkins-terraform-pipeline/ec2_pipeline/'){
                     script {
                         try {
-                            sh "terraform workspace new ${params.WORKSPACE}"
+                            bat "terraform workspace new ${params.WORKSPACE}"
                         } catch (err) {
-                            sh "terraform workspace select ${params.WORKSPACE}"
+                            bat "terraform workspace select ${params.WORKSPACE}"
                         }
-                        sh "terraform plan -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' \
+                        bat "terraform plan -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' \
                         -out terraform.tfplan;echo \$? > status"
-                        stash name: "terraform-plan", includes: "terraform.tfplan"
+                        stabat name: "terraform-plan", includes: "terraform.tfplan"
                     }
                 }
             }
@@ -70,8 +70,8 @@ pipeline {
                     }
                     if(apply){
                         dir('jenkins-terraform-pipeline/ec2_pipeline/'){
-                            unstash "terraform-plan"
-                            sh 'terraform apply terraform.tfplan' 
+                            unstabat "terraform-plan"
+                            bat 'terraform apply terraform.tfplan' 
                         }
                     }
                 }
