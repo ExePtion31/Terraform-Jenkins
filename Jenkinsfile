@@ -1,73 +1,90 @@
 pipeline {
     agent any
-
+    tools {
+        "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform"
+    }
     parameters {
-        string(name: 'environment', defaultValue: 'aws', description: 'Workspace/environment file to use for deployment')
-        booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
-
+        string(name: 'WORKSPACE', defaultValue: 'development', description:'setting up workspace for terraform')
     }
-
-
-     environment {
-        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    environment {
+        TF_HOME = tool('terraform')
+        TP_LOG = "WARN"
+        PATH = "$TF_HOME:$PATH"
+        ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
+        SECRET_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
-
     stages {
-        stage('checkout') {
-            steps {
-                 script{
-                        dir("terraform")
-                        {
-                            git "https://github.com/ExePtion31/Terraform-Jenkins"
+            stage('checkout') {
+                steps {
+                    script {
+                        dir("terraform") {
+                            git "https://github.com/ExePtion31/Terraform-Jenkins.git"
                         }
                     }
                 }
             }
-
-        stage('Set Terraform Path'){
+            stage('TerraformInit'){
             steps {
-                script {
-                    def tfHome = tool name: 'Terraform'
-                    env.PATH = "${tfHome}:${env.PATH}"
-                }
-            bat 'terraform --version'    
-            }
-        }
-
-        stage('Provision infrastructure') {
-            steps {
-                dir('dev')
-                {
-                    bat 'terraform init'
-                    /*sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace new ${environment}'
-                    sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace select ${environment}'
-                    sh "pwd;cd terraform/Terraform-Jenkins ;terraform plan -input=false -out tfplan "
-                    sh 'pwd;cd terraform/Terraform-Jenkins ;terraform show -no-color tfplan > tfplan.txt'*/
+                dir('jenkins-terraform-pipeline/ec2_pipeline/'){
+                    bat "terraform init -input=false"
+                    bat "echo \$PWD"
+                    bat "whoami"
                 }
             }
         }
-        stage('Approval') {
-           when {
-               not {
-                   equals expected: true, actual: params.autoApprove
-               }
-           }
 
-           steps {
-               script {
-                    def plan = readFile 'terraform/Terraform-Jenkins/tfplan.txt'
-                    input message: "Do you want to apply the plan?",
-                    parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
-               }
-           }
-       }
-
-        stage('Apply') {
+        stage('TerraformFormat'){
             steps {
-                sh "pwd;cd terraform/Terraform-Jenkins ; terraform apply -input=false tfplan"
+                dir('jenkins-terraform-pipeline/ec2_pipeline/'){
+                    bat "terraform fmt -list=true -write=false -diff=true -check=true"
+                }
+            }
+        }
+
+        stage('TerraformValidate'){
+            steps {
+                dir('jenkins-terraform-pipeline/ec2_pipeline/'){
+                    bat "terraform validate"
+                }
+            }
+        }
+
+        stage('TerraformPlan'){
+            steps {
+                dir('jenkins-terraform-pipeline/ec2_pipeline/'){
+                    script {
+                        try {
+                            bat "terraform workspace new ${params.WORKSPACE}"
+                        } catch (err) {
+                            bat "terraform workspace select ${params.WORKSPACE}"
+                        }
+                        bat "terraform plan -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' \
+                        -out terraform.tfplan;echo \$? > status"
+                        stash name: "terraform-plan", includes: "terraform.tfplan"
+                    }
+                }
+            }
+        }
+        
+        stage('TerraformApply'){
+            steps {
+                script{
+                    def apply = false
+                    try {
+                        input message: 'Can you please confirm the apply', ok: 'Ready to Apply the Config'
+                        apply = true
+                    } catch (err) {
+                        apply = false
+                         currentBuild.result = 'UNSTABLE'
+                    }
+                    if(apply){
+                        dir('jenkins-terraform-pipeline/ec2_pipeline/'){
+                            unstash "terraform-plan"
+                            bat 'terraform apply terraform.tfplan' 
+                        }
+                    }
+                }
             }
         }
     }
-
-  }
+}
