@@ -32,8 +32,7 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
-                    bat "terraform init -input=false -backend-config=access_key='$AWS_ACCESS_KEY_ID'-backend-config=secret_key='$AWS_SECRET_ACCESS_KEY'"
-                    bat "terraform -v"
+                    bat "terraform init -input=false"
                 }
             }
         }
@@ -42,11 +41,6 @@ pipeline {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
                     bat "terraform apply -auto-approve"
                 }
-            }
-        }
-        stage('Finished instance') {
-            steps {
-                bat 'terraform destroy -target aws_instance.jenkins_instance -auto-approve' 
             }
         }
     }
