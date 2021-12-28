@@ -1,7 +1,8 @@
 pipeline {
+    agent any
 
     parameters {
-        string(name: 'environment', defaultValue: 'aws', description: 'Workspace/environment file to use for deployment')
+        string(name: 'environment', defaultValue: 'terraform', description: 'Workspace/environment file to use for deployment')
         booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
 
     }
@@ -12,10 +13,6 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
 
-   agent  any
-        options {
-                timestamps ()
-            }
     stages {
         stage('checkout') {
             steps {
@@ -34,7 +31,7 @@ pipeline {
                     def tfHome = tool name: 'Terraform'
                     env.PATH = "${tfHome}:${env.PATH}"
                 }
-            sh 'terraform --version'    
+            bat 'terraform --version'    
             }
         }
 
