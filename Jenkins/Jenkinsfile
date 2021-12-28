@@ -23,7 +23,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-                git 'https://github.com/ExePtion31/Terraform-Jenkins'
+                git clone 'https://github.com/ExePtion31/Terraform-Jenkins'
             }
         }
         stage('Terraform Init') {
