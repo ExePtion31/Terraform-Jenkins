@@ -37,5 +37,12 @@ pipeline {
                 }
             }
         }
+        stage('Terraform Apply') {
+            steps {
+                dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
+                    bat "terraform apply -auto-approve"
+                }
+            }
+        }
     }
 }
