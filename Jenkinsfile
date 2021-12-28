@@ -28,13 +28,26 @@ pipeline {
                 }
             }
 
-        stage('Plan') {
+        stage('Set Terraform Path'){
             steps {
-                bat 'terraform init'
-                /*sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace new ${environment}'
-                sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace select ${environment}'
-                sh "pwd;cd terraform/Terraform-Jenkins ;terraform plan -input=false -out tfplan "
-                sh 'pwd;cd terraform/Terraform-Jenkins ;terraform show -no-color tfplan > tfplan.txt'*/
+                script {
+                    def tfHome = tool name: 'Terraform'
+                    env.PATH = "${tfHome}:${env.PATH}"
+                }
+            bat 'terraform —version'    
+            }
+        }
+
+        stage('Provision infrastructure') {
+            steps {
+                dir('dev')
+                {
+                    bat 'terraform init'
+                    /*sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace new ${environment}'
+                    sh 'pwd;cd terraform/Terraform-Jenkins ; terraform workspace select ${environment}'
+                    sh "pwd;cd terraform/Terraform-Jenkins ;terraform plan -input=false -out tfplan "
+                    sh 'pwd;cd terraform/Terraform-Jenkins ;terraform show -no-color tfplan > tfplan.txt'*/
+                }
             }
         }
         stage('Approval') {
