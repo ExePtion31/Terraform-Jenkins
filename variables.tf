@@ -9,14 +9,6 @@ variable "AMIS" {
   }
 }
 
-variable "PATH_TO_KEYS" {
-  type = map(string)
-  default = {
-    private = "~/.ssh/id_rsa"
-    public = "~/.ssh/id_rsa.pub"
-  }
-}
-
 variable "PATH_TO_LAMBDA" {
   type = map(string)
   default = {
@@ -30,3 +22,7 @@ variable "INSTANCE_USERNAME" {
   default = "ubuntu"
 }
 
+variable "stack_id" {
+  type = string
+  default = "terraform-course"
+}
