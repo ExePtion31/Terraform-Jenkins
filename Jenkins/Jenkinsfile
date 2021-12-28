@@ -19,7 +19,7 @@ pipeline {
             steps {
                 dir('jenkins-terraform-pipeline/ec2_pipeline/'){
                     bat "terraform init -input=false"
-                    bat "echo \$PWD"
+                    bat "terraform -v"
                 }
             }
         }
