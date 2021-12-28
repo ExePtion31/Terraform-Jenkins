@@ -34,7 +34,7 @@ pipeline {
                     def tfHome = tool name: 'Terraform'
                     env.PATH = "${tfHome}:${env.PATH}"
                 }
-            bat 'terraform —version'    
+            bat 'terraform --version'    
             }
         }
 
