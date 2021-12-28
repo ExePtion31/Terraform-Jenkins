@@ -15,6 +15,16 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Terraform Init') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
