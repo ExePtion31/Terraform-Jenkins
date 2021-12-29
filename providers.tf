@@ -1,4 +1,4 @@
 provider "aws" {
-  region     = "${var.AWS_REGION}"
+  region     = local.AWS_REGION
   version    = "~> 2.0"
 }
