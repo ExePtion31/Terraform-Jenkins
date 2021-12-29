@@ -1,7 +1,7 @@
 const handler = async (event) => {
     let response = 'Célula de ahorros';
     console.debug('Lambda ejecutada correctamente');
-    console.log('Fin de ejecución');
+    console.error('Fin de ejecución');
     return response;
 };
 
