@@ -5,4 +5,6 @@ resource "aws_s3_bucket" "bucket_data" {
   versioning {
     enabled = true
   }
+
+  tags = local.common_tags
 }

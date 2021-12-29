@@ -21,7 +21,7 @@ variable "path_lambda" {
   }
 }
 
-variable "stack_id " {
+variable "stack_id" {
   type = string
   default = "terraform-course"
 }

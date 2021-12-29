@@ -16,4 +16,6 @@ resource "aws_lambda_function" "lambda_trigger" {
       source_code_hash
     ]
   }
+
+  tags = local.common_tags
 }
