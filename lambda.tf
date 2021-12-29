@@ -3,7 +3,7 @@ resource "aws_lambda_function" "lambda_trigger" {
   role             = aws_iam_role.lambda_trigger_role.arn
   handler          = "index.handler"
   runtime          = "nodejs12.x"
-  source_code_hash = filebase64sha256(var.path_lambda["zip"])
+  source_code_hash = "${data.archive_file.zip_lambda.output_base64sha256}"
   filename         = var.path_lambda["zip"]
 
   depends_on = [
