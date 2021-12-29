@@ -10,11 +10,6 @@ pipeline {
     }
 
     stages {
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
         stage('Checkout') {
             steps {
                 script {
@@ -43,6 +38,11 @@ pipeline {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
                     bat "terraform apply -input=false myplan"
                 }
+            }
+        }
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
             }
         }
     }
