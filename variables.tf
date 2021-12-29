@@ -17,11 +17,6 @@ variable "PATH_TO_LAMBDA" {
   }
 }
 
-variable "INSTANCE_USERNAME" {
-  type = string
-  default = "ubuntu"
-}
-
 variable "stack_id" {
   type = string
   default = "terraform-course"
