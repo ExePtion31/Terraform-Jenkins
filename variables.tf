@@ -16,8 +16,3 @@ variable "PATH_TO_LAMBDA" {
     zip = "./files/index.zip"
   }
 }
-
-variable "stack_id" {
-  type = string
-  default = "terraform-course"
-}

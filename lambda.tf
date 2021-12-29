@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "lambda_trigger" {
-  function_name    = "${var.stack_id}-signed"
+  function_name    = "${local.stack_id}-signed"
   role             = aws_iam_role.lambda_trigger_role.arn
   handler          = "index.handler"
   runtime          = "nodejs12.x"

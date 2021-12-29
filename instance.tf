@@ -1,4 +1,4 @@
 resource "aws_instance" "jenkins_instance" {
-   ami           = "${lookup(var.AMIS, var.AWS_REGION)}"
-   instance_type = "t2.micro"
+   ami           = local.us_east_2_ami
+   instance_type = local.instance_type
 }
