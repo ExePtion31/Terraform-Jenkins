@@ -1,6 +1,6 @@
 #Zip
 data "archive_file" "zip_lambda" {
-  type = "zip"
+  type        = "zip"
   source_file = var.PATH_TO_LAMBDA["unzip"]
   output_path = var.PATH_TO_LAMBDA["zip"]
 }
@@ -8,7 +8,7 @@ data "archive_file" "zip_lambda" {
 # Lambda role document
 data "aws_iam_policy_document" "lambda_trigger_assume_role_policy_document" {
   statement {
-    sid = "LambdaTriggerPolicy"
+    sid     = "LambdaTriggerPolicy"
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
@@ -16,9 +16,11 @@ data "aws_iam_policy_document" "lambda_trigger_assume_role_policy_document" {
       identifiers = ["lambda.amazonaws.com"]
     }
   }
-  
+}
+
+data "aws_iam_policy_document" "lambda_trigger_assume_logs_policy_document" {
   statement {
-    sid = "LambdaTriggerLogs"
+    sid    = "LambdaTriggerLogs"
     effect = "Allow"
     actions = [
       "logs:CreateLogGroup",
