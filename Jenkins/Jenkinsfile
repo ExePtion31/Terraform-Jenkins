@@ -10,6 +10,11 @@ pipeline {
     }
 
     stages {
+        stage('Clean-up') {
+            steps {
+                cleanWs()
+            }
+        }
         stage('Checkout') {
             steps {
                 script {
@@ -19,28 +24,28 @@ pipeline {
                 }
             }
         }
-        stage('Terraform Init') {
+        stage('Init') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
                     bat "terraform init -input=false"
                 }
             }
         }
-        stage('Terraform Validate') {
+        stage('Validate') {
             steps{
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
                     bat "terraform validate"
                 }
             }
         }
-        stage('Terraform Plan') {
+        stage('Plan') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
                     bat "terraform plan -out=myplan -input=false"
                 }
             }
         }
-        stage('Terraform Apply') {
+        stage('Apply') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
                     bat "terraform apply -input=false myplan"
