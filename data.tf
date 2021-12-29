@@ -8,21 +8,12 @@ data "archive_file" "zip_lambda" {
 # Lambda role document
 data "aws_iam_policy_document" "lambda_trigger_assume_role_policy_document" {
   statement {
+    sid = "LambdaTriggerPolicy"
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
       identifiers = ["lambda.amazonaws.com"]
     }
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents"
-    ]
-    resources = ["arn:aws:logs:*:*:*"]
   }
 }
