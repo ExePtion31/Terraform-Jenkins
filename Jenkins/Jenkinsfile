@@ -29,7 +29,7 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
-                    bat "terraform plan -out myplan"
+                    bat "terraform plan -out=myplan -input=false"
                 }
             }
         }
