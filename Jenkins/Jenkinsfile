@@ -31,10 +31,17 @@ pipeline {
                 }
             }
         }
+        stage('Terraform Plan') {
+            steps {
+                dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
+                    bat "terraform plan -out myplan"
+                }
+            }
+        }
         stage('Terraform Apply') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
-                    bat "terraform apply -auto-approve"
+                    bat "terraform apply -input=false myplan"
                 }
             }
         }
