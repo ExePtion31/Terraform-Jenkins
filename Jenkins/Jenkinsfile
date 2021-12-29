@@ -3,13 +3,8 @@ pipeline {
     tools {
         "org.jenkinsci.plugins.terraform.TerraformInstallation" "Terraform"
     }
-    parameters {
-        string(name: 'Workspace', defaultValue: 'development', description:'setting up workspace for terraform')
-    }
+
     environment {
-        TF_HOME = tool('Terraform')
-        TP_LOG = "WARN"
-        PATH = "$TF_HOME:$PATH"
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
