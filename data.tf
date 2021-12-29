@@ -16,4 +16,15 @@ data "aws_iam_policy_document" "lambda_trigger_assume_role_policy_document" {
       identifiers = ["lambda.amazonaws.com"]
     }
   }
+  
+  statement {
+    sid = "LambdaTriggerLogs"
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = ["arn:aws:logs:*:*:*"]
+  }
 }
