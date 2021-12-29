@@ -1,8 +1,9 @@
 terraform {
   required_providers {
     mycloud = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 2.0"
+      region  = "${var.AWS_REGION}"
     }
   }
 
