@@ -1,12 +1,4 @@
 terraform {
-  required_providers {
-    mycloud = {
-      source  = "hashicorp/aws"
-      version = "~> 2.0"
-      region  = "${var.AWS_REGION}"
-    }
-  }
-
   backend "s3" {
     bucket = "terraform-course-bucket-state"
     key = "terraform.tfstate"
