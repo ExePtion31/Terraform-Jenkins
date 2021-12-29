@@ -1,8 +1,8 @@
 #Zip
 data "archive_file" "zip_lambda" {
   type        = "zip"
-  source_file = var.PATH_TO_LAMBDA["unzip"]
-  output_path = var.PATH_TO_LAMBDA["zip"]
+  source_file = var.path_lambda["unzip"]
+  output_path = var.path_lambda["zip"]
 }
 
 # Lambda role document
