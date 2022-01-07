@@ -1,7 +1,7 @@
 resource "aws_dynamodb_table" "products_table" {
   name         = "${var.stack_id}-products-table"
-  hash_key     = "DATA_TYPE"
-  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "ID_PRODUCT"
+  range_key    = "NAME_PRODUCT"
   tags         = local.common_tags
 
   attribute {
