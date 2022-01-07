@@ -38,6 +38,11 @@ resource "aws_dynamodb_table" "products_table" {
     projection_type = "ALL"
   }
 
+  ttl {
+    attribute_name = "TTL"
+    enabled        = true
+  }
+
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
 }
