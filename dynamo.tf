@@ -1,8 +1,8 @@
 resource "aws_dynamodb_table" "products_table" {
-  name         = "${var.stack_id}-products-table"
-  hash_key     = "ID_PRODUCT"
-  range_key    = "NAME_PRODUCT"
-  tags         = local.common_tags
+  name      = "${var.stack_id}-products-table"
+  hash_key  = "ID_PRODUCT"
+  range_key = "NAME_PRODUCT"
+  tags      = local.common_tags
 
   attribute {
     name = "ID_PRODUCT"
@@ -22,6 +22,18 @@ resource "aws_dynamodb_table" "products_table" {
   attribute {
     name = "AMOUNT_PRODUCT"
     type = "N"
+  }
+
+  local_secondary_index {
+    name            = "price-index"
+    range_key       = "PRICE_PRODUCT"
+    projection_type = "ALL"
+  }
+
+  local_secondary_index {
+    name            = "amount-index"
+    range_key       = "AMOUNT_PRODUCT"
+    projection_type = "ALL"
   }
 
   stream_enabled   = true
