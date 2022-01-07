@@ -1,8 +1,10 @@
 resource "aws_dynamodb_table" "products_table" {
-  name      = "${var.stack_id}-products-table"
-  hash_key  = "ID_PRODUCT"
-  range_key = "NAME_PRODUCT"
-  tags      = local.common_tags
+  name           = "${var.stack_id}-products-table"
+  hash_key       = "ID_PRODUCT"
+  range_key      = "NAME_PRODUCT"
+  read_capacity  = 20
+  write_capacity = 20
+  tags           = local.common_tags
 
   attribute {
     name = "ID_PRODUCT"
