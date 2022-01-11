@@ -27,6 +27,7 @@ pipeline {
         stage('Init') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
+                    sh "terraform -version"
                     sh "terraform init -input=false"
                 }
             }
