@@ -27,28 +27,28 @@ pipeline {
         stage('Init') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
-                    bat "terraform init -input=false"
+                    sh "terraform init -input=false"
                 }
             }
         }
         stage('Validate') {
             steps{
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
-                    bat "terraform validate"
+                    sh "terraform validate"
                 }
             }
         }
         stage('Plan') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
-                    bat "terraform plan -out=myplan -input=false"
+                    sh "terraform plan -out=myplan -input=false"
                 }
             }
         }
         stage('Apply') {
             steps {
                 dir('jenkins-terraform-pipeline/jenkins_pipeline/'){
-                    bat "terraform apply -input=false myplan"
+                    sh "terraform apply -input=false myplan"
                 }
             }
         }
