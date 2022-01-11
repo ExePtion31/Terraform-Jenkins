@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "products_table" {
-  name           = "${var.stack_id}-products-tables"
+  name           = "${var.stack_id}-products-table"
   hash_key       = "ID_PRODUCT"
   range_key      = "NAME_PRODUCT"
   read_capacity  = 30
