@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'hashicorp/terraform:light'
-            args '--entrypoint='
-        }
-    }
+    agent any
     tools {
         "org.jenkinsci.plugins.terraform.TerraformInstallation" "Terraform"
     }
